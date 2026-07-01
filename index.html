@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Feliz Aniversário, Betina! 🎂</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet"/>
+  <style>
+    /* ===== RESET & BASE ===== */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --gold: #ffd700;
+      --pink: #ff69b4;
+      --purple: #c084fc;
+      --dark: #1a0a2e;
+      --dark2: #2d1b4e;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--dark);
+      font-family: 'Lato', sans-serif;
+      color: #fff;
+      overflow-x: hidden;
+    }
+
+    /* ===== ESTRELAS DE FUNDO ===== */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        radial-gradient(circle, rgba(255,215,0,0.12) 1px, transparent 1px),
+        radial-gradient(circle, rgba(255,182,193,0.08) 1px, transparent 1px);
+      background-size: 60px 60px, 90px 90px;
+      background-position: 0 0, 30px 30px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ===== NAV TABS ===== */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      background: rgba(26, 10, 46, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255,215,0,0.15);
+      display: flex;
+      justify-content: center;
+      gap: 4px;
+      padding: 10px 12px;
+      flex-wrap: wrap;
+    }
+
+    .nav a {
+      color: rgba(255,255,255,0.6);
+      text-decoration: none;
+      font-size: 0.78rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 7px 14px;
+      border-radius: 50px;
+      transition: all 0.3s;
+      white-space: nowrap;
+    }
+
+    .nav a:hover, .nav a.active {
+      color: var(--gold);
+      background: rgba(255,215,0,0.12);
+    }
+
+    /* ===== SEÇÕES GERAIS ===== */
+    section {
+      position: relative;
+      z-index: 1;
+      padding: 90px 20px 70px;
+    }
+
+    .section-inner {
+      max-width: 680px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .section-label {
+      display: inline-block;
+      background: rgba(255,215,0,0.12);
+      border: 1px solid rgba(255,215,0,0.35);
+      border-radius: 50px;
+      padding: 6px 20px;
+      font-size: 0.75rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 24px;
+    }
+
+    h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 5vw, 2.8rem);
+      background: linear-gradient(90deg, var(--gold), var(--pink), var(--purple));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1.25;
+      margin-bottom: 20px;
+    }
+
+    .divider {
+      width: 60px;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      margin: 0 auto 32px;
+    }
+
+    /* ===== HERO ===== */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding-top: 80px;
+      background:
+        linear-gradient(to bottom, rgba(26,10,46,0.3) 0%, rgba(26,10,46,0.85) 100%),
+        url('foto1.jpg') center center / cover no-repeat;
+    }
+
+    .hero-inner {
+      text-align: center;
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .top-badge {
+      display: inline-block;
+      background: rgba(255,215,0,0.15);
+      border: 1px solid rgba(255,215,0,0.4);
+      border-radius: 50px;
+      padding: 8px 24px;
+      font-size: 0.8rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 28px;
+    }
+
+    /* Foto circular */
+    .photo-wrapper {
+      position: relative;
+      display: block;
+      width: 200px;
+      height: 200px;
+      margin: 0 auto 28px;
+    }
+
+    .photo-wrapper::before {
+      content: '';
+      position: absolute;
+      inset: -5px;
+      border-radius: 50%;
+      background: conic-gradient(var(--gold), var(--pink), var(--purple), var(--gold));
+      animation: spin 4s linear infinite;
+      z-index: 0;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .photo-wrapper img {
+      position: relative;
+      z-index: 1;
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      object-fit: cover;
+      object-position: center center;
+      border: 5px solid var(--dark);
+      display: block;
+    }
+
+    .hero-name {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.2rem, 7vw, 3.5rem);
+      background: linear-gradient(90deg, var(--gold), var(--pink), var(--purple));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1.2;
+      margin-bottom: 8px;
+    }
+
+    .hero-sub {
+      font-size: 1rem;
+      color: rgba(255,255,255,0.55);
+      letter-spacing: 1px;
+      margin-bottom: 32px;
+    }
+
+    /* Card de idade */
+    .age-card {
+      display: inline-flex;
+      align-items: center;
+      gap: 16px;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,215,0,0.25);
+      border-radius: 20px;
+      padding: 16px 32px;
+      margin-bottom: 36px;
+    }
+
+    .age-number {
+      font-family: 'Playfair Display', serif;
+      font-size: 3.2rem;
+      font-weight: 700;
+      color: var(--gold);
+      line-height: 1;
+    }
+
+    .age-text {
+      text-align: left;
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.55);
+      line-height: 1.6;
+    }
+
+    .age-text strong {
+      display: block;
+      font-size: 0.95rem;
+      color: #fff;
+    }
+
+    .floating-emojis {
+      font-size: 1.6rem;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    /* Scroll hint */
+    .scroll-hint {
+      margin-top: 40px;
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.3);
+      letter-spacing: 1px;
+      animation: float 2s ease-in-out infinite;
+    }
+
+    /* ===== SEÇÃO ORIGEM ===== */
+    #origem {
+      background: linear-gradient(180deg, var(--dark) 0%, var(--dark2) 50%, var(--dark) 100%);
+    }
+
+    .origem-text {
+      font-size: clamp(1rem, 2.5vw, 1.1rem);
+      line-height: 1.95;
+      color: rgba(255,255,255,0.85);
+      text-align: left;
+    }
+
+    .origem-text p + p { margin-top: 18px; }
+
+    .highlight {
+      color: var(--gold);
+      font-style: italic;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15em;
+    }
+
+    /* ===== PARALLAX FOTO ===== */
+    .parallax-block {
+      position: relative;
+      height: 380px;
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    .parallax-block .parallax-img {
+      position: absolute;
+      inset: -60px 0;
+      background-attachment: fixed;
+      background-size: cover;
+      background-position: center;
+      filter: brightness(0.55);
+    }
+
+    .parallax-block .parallax-caption {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .parallax-caption p {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: clamp(1.2rem, 4vw, 1.8rem);
+      color: #fff;
+      text-shadow: 0 2px 20px rgba(0,0,0,0.7);
+      max-width: 560px;
+    }
+
+    .parallax-caption span {
+      margin-top: 12px;
+      font-size: 0.8rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    /* ===== SEÇÃO QUALIDADES ===== */
+    #qualidades {
+      background: var(--dark);
+    }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+      margin-top: 36px;
+      text-align: left;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.09);
+      border-radius: 20px;
+      padding: 24px 22px;
+      transition: transform 0.3s, border-color 0.3s;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(255,215,0,0.3);
+    }
+
+    .card-icon { font-size: 2rem; margin-bottom: 12px; }
+
+    .card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      color: var(--gold);
+      margin-bottom: 8px;
+    }
+
+    .card p {
+      font-size: 0.9rem;
+      line-height: 1.7;
+      color: rgba(255,255,255,0.7);
+    }
+
+    /* ===== SEÇÃO ENGRAÇADA ===== */
+    #funny {
+      background: linear-gradient(180deg, var(--dark) 0%, var(--dark2) 100%);
+    }
+
+    .funny-layout {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 28px;
+    }
+
+    .funny-photo {
+      position: relative;
+      width: 240px;
+      flex-shrink: 0;
+    }
+
+    .funny-photo img {
+      width: 100%;
+      border-radius: 24px;
+      object-fit: cover;
+      object-position: center top;
+      border: 3px solid rgba(255,105,180,0.4);
+      box-shadow: 0 0 40px rgba(255,105,180,0.2);
+    }
+
+    .funny-bubble {
+      position: absolute;
+      top: -18px;
+      right: -18px;
+      background: var(--pink);
+      color: #fff;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      padding: 8px 14px;
+      border-radius: 50px;
+      white-space: nowrap;
+      box-shadow: 0 4px 16px rgba(255,105,180,0.5);
+    }
+
+    .funny-text {
+      text-align: left;
+      font-size: clamp(0.95rem, 2.5vw, 1.05rem);
+      line-height: 1.9;
+      color: rgba(255,255,255,0.85);
+    }
+
+    .funny-text p + p { margin-top: 14px; }
+
+    /* ===== GALERIA ===== */
+    #galeria {
+      background: var(--dark2);
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-top: 32px;
+    }
+
+    @media (min-width: 500px) {
+      .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    .gallery-item {
+      border-radius: 16px;
+      overflow: hidden;
+      aspect-ratio: 3/4;
+      position: relative;
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      transition: transform 0.5s;
+      display: block;
+    }
+
+    .gallery-item:hover img { transform: scale(1.05); }
+
+    .gallery-item .overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(26,10,46,0.7) 0%, transparent 50%);
+      opacity: 0;
+      transition: opacity 0.3s;
+      display: flex;
+      align-items: flex-end;
+      padding: 16px;
+    }
+
+    .gallery-item:hover .overlay { opacity: 1; }
+
+    .overlay p {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 0.9rem;
+      color: #fff;
+    }
+
+    /* ===== SEÇÃO MENSAGEM FINAL ===== */
+    #mensagem {
+      background: linear-gradient(180deg, var(--dark2) 0%, var(--dark) 100%);
+    }
+
+    .message-box {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 28px;
+      padding: clamp(28px, 6vw, 48px) clamp(20px, 5vw, 40px);
+      text-align: left;
+      line-height: 1.95;
+      font-size: clamp(0.97rem, 2.5vw, 1.07rem);
+      color: rgba(255,255,255,0.88);
+    }
+
+    .message-box p + p { margin-top: 18px; }
+
+    .signature {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 1.4rem;
+      color: var(--pink);
+      text-align: center;
+      margin-top: 36px;
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 30px 20px 40px;
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.2);
+    }
+
+    .balloons {
+      font-size: 2rem;
+      letter-spacing: 8px;
+      display: block;
+      margin-bottom: 12px;
+      animation: float 2.5s ease-in-out infinite;
+    }
+
+    /* ===== RESPONSIVO ===== */
+    @media (min-width: 600px) {
+      .funny-layout {
+        flex-direction: row;
+        align-items: flex-start;
+        text-align: left;
+      }
+      .funny-photo { width: 200px; }
+    }
+
+    /* Mobile: parallax fixo não funciona bem, fallback */
+    @media (max-width: 768px) {
+      .parallax-block .parallax-img {
+        background-attachment: scroll;
+        inset: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <a href="#hero">🏠 Início</a>
+    <a href="#origem">💛 Origem</a>
+    <a href="#qualidades">✨ Você é</a>
+    <a href="#funny">😄 Seu jeito</a>
+    <a href="#galeria">📸 Fotos</a>
+    <a href="#mensagem">💌 Mensagem</a>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <section id="hero">
+    <div class="hero-inner">
+      <div class="top-badge">✨ 06 de Julho de 1993 · 2026 ✨</div>
+
+      <div class="photo-wrapper">
+        <img src="foto3.jpg" alt="Betina" />
+      </div>
+
+      <h1 class="hero-name">Betina Espíndola<br/>Rodrigues</h1>
+      <p class="hero-sub">Feliz Aniversário, meu amor</p>
+
+      <div class="age-card">
+        <div class="age-number">33</div>
+        <div class="age-text">
+          <strong>anos de pura luz</strong>
+          nascida em 06/07/1993
+        </div>
+      </div>
+
+      <div class="floating-emojis">🎂 🎉 💕</div>
+
+      <div class="scroll-hint">↓ role para baixo ↓</div>
+    </div>
+  </section>
+
+  <!-- ===== PARALLAX 1 ===== -->
+  <div class="parallax-block">
+    <div class="parallax-img" style="background-image: url('foto1.jpg');"></div>
+    <div class="parallax-caption">
+      <p>"Há 33 anos o mundo ganhou a pessoa mais especial que eu já conheci."</p>
+      <span>06 · 07 · 1993</span>
+    </div>
+  </div>
+
+  <!-- ===== ORIGEM ===== -->
+  <section id="origem">
+    <div class="section-inner">
+      <span class="section-label">💛 O começo de tudo</span>
+      <h2>33 anos atrás nasceu<br/>o amor da minha vida</h2>
+      <div class="divider"></div>
+      <div class="origem-text">
+        <p>Em 6 de julho de 1993, o universo fez algo muito especial: trouxe você ao mundo. Naquele dia, sem que eu soubesse ainda, nasceu a pessoa que um dia mudaria tudo pra mim — meu jeito de ver a vida, de sentir, de ser.</p>
+        <p>Você chegou com esse sorriso que ilumina qualquer ambiente, com essa força que admiro tanto, com esse coração que transborda amor por tudo e por todos ao redor.</p>
+        <p>Esses <span class="highlight">33 anos</span> construíram a mulher incrível que você é hoje — e eu tenho o privilégio de chamar essa mulher de <span class="highlight">minha</span>.</p>
+        <p>Obrigado, universo. Obrigado por ela. ❤️</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PARALLAX 2 ===== -->
+  <div class="parallax-block">
+    <div class="parallax-img" style="background-image: url('foto2.jpg');"></div>
+    <div class="parallax-caption">
+      <p>"Cada momento ao seu lado é uma memória que eu nunca vou querer esquecer."</p>
+      <span>Nós dois ❤️</span>
+    </div>
+  </div>
+
+  <!-- ===== QUALIDADES ===== -->
+  <section id="qualidades">
+    <div class="section-inner">
+      <span class="section-label">✨ Quem você é</span>
+      <h2>Você é maravilhosa<br/>em tudo que faz</h2>
+      <div class="divider"></div>
+    </div>
+    <div style="max-width: 680px; margin: 0 auto; padding: 0 20px;">
+      <div class="cards-grid">
+        <div class="card">
+          <div class="card-icon">💪</div>
+          <h3>Minha força</h3>
+          <p>Nos dias difíceis, você me lembra que sou capaz. Sua força me inspira a ser melhor a cada dia.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">🕊️</div>
+          <h3>Minha paz</h3>
+          <p>Com você, o mundo faz sentido. Você é o lugar onde eu me sinto em casa, em paz, em segurança.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">😂</div>
+          <h3>Minha alegria</h3>
+          <p>Você transforma os dias comuns nos melhores dias da minha vida. Sua risada é meu som favorito.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">🌟</div>
+          <h3>Minha felicidade</h3>
+          <p>Eu sou um homem melhor por sua causa. Você me faz querer crescer, evoluir, me superar.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">💛</div>
+          <h3>Meu lar</h3>
+          <p>Onde você está, é onde eu quero estar. Você é meu lar — não um lugar, uma pessoa.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">🌹</div>
+          <h3>Meu amor</h3>
+          <p>Te amo com uma intensidade que cresce a cada dia. Você é o melhor que aconteceu na minha vida.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PARALLAX 3 ===== -->
+  <div class="parallax-block">
+    <div class="parallax-img" style="background-image: url('foto4.jpg');"></div>
+    <div class="parallax-caption">
+      <p>"Você me dá força, paz, alegria e felicidade — todos os dias."</p>
+      <span>Sempre juntos 💕</span>
+    </div>
+  </div>
+
+  <!-- ===== SEÇÃO ENGRAÇADA ===== -->
+  <section id="funny">
+    <div class="section-inner">
+      <span class="section-label">😄 Seu jeito único</span>
+      <h2>Eu amo tudo em você —<br/>até a carinha maluca</h2>
+      <div class="divider"></div>
+    </div>
+    <div style="max-width: 680px; margin: 0 auto; padding: 0 20px;">
+      <div class="funny-layout">
+        <div class="funny-photo">
+          <img src="foto3.jpg" alt="Betina sendo ela mesma 😄" />
+          <div class="funny-bubble">😂 100% ela!</div>
+        </div>
+        <div class="funny-text">
+          <p>Essa foto te define de um jeito que eu amo demais. Porque você não tem medo de ser você — espontânea, engraçada, sem filtro, do jeitinho que você é.</p>
+          <p>Esse seu jeito de soltar uma carinha maluca, de rir de tudo, de transformar qualquer situação em diversão... isso é um dos milhares de motivos pelos quais eu me apaixono por você todos os dias.</p>
+          <p>Você é linda quando está arrumada, mas é <span class="highlight">irresistível</span> quando está sendo simplesmente você mesma. 😄❤️</p>
+          <p>Não muda nunca. Por favor.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== GALERIA ===== -->
+  <section id="galeria">
+    <div class="section-inner">
+      <span class="section-label">📸 Nossa história</span>
+      <h2>Momentos que guardarei<br/>para sempre</h2>
+      <div class="divider"></div>
+    </div>
+    <div style="max-width: 680px; margin: 0 auto; padding: 0 20px;">
+      <div class="gallery-grid">
+        <div class="gallery-item">
+          <img src="foto1.jpg" alt="Nós dois" />
+          <div class="overlay"><p>Pôr do sol com você 🌅</p></div>
+        </div>
+        <div class="gallery-item">
+          <img src="foto2.jpg" alt="Nosso beijo" />
+          <div class="overlay"><p>Nosso amor 💋</p></div>
+        </div>
+        <div class="gallery-item">
+          <img src="foto3.jpg" alt="Betina" />
+          <div class="overlay"><p>Esse sorriso ❤️</p></div>
+        </div>
+        <div class="gallery-item">
+          <img src="foto4.jpg" alt="Nós na praia" />
+          <div class="overlay"><p>Dias inesquecíveis 🌊</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== MENSAGEM FINAL ===== -->
+  <section id="mensagem">
+    <div class="section-inner">
+      <span class="section-label">💌 Do fundo do coração</span>
+      <h2>Para você, com todo<br/>o meu amor</h2>
+      <div class="divider"></div>
+      <div class="message-box">
+        <p>Hoje o mundo ficou mais bonito há 33 anos — e eu tenho a sorte de chamar esse mundo de <span class="highlight">lar</span>. Porque onde você está, é onde eu quero estar.</p>
+        <p>Você é a pessoa que transforma os dias comuns em memórias que eu nunca vou querer esquecer. Seu sorriso, sua força, seu jeito único de ser... tudo em você me faz querer ser uma pessoa melhor todos os dias.</p>
+        <p>Você me dá força quando eu preciso. Me dá paz quando o mundo está agitado. Me dá alegria sem nem precisar fazer nada — só de existir. E me dá uma felicidade que eu não sabia que era possível sentir.</p>
+        <p>Eu sou um homem melhor por sua causa. E sou grato por isso todos os dias.</p>
+        <p>Que esse novo ano da sua vida seja repleto de tudo que você merece — e você merece <span class="highlight">muito</span>. Que venham mais aventuras, mais risos, mais pôr do sol juntos, mais momentos que a gente vai guardar pra sempre.</p>
+        <p>Te amo hoje, amanhã e sempre. ❤️</p>
+      </div>
+      <div class="signature">Com todo o meu amor 💕</div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    <span class="balloons">🎈🎈🎈</span>
+    Feito com amor especialmente para você · 06/07/2026
+  </footer>
+
+</body>
+</html>
