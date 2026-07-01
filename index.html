@@ -42,7 +42,7 @@
     #fireworks-overlay {
       position: fixed;
       inset: 0;
-      z-index: 999;
+      z-index: 0;        /* atrás do conteúdo */
       pointer-events: none;
     }
 
@@ -878,8 +878,7 @@
 
     function loop(timestamp) {
       // Fundo semi-transparente para efeito de rastro suave
-      ctx.fillStyle = 'rgba(26,10,46,0.18)';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       // Lançar novo foguete
       if (timestamp - lastLaunch > LAUNCH_INTERVAL) {
