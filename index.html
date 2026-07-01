@@ -728,5 +728,184 @@
     Feito com amor especialmente para você · 06/07/2026
   </footer>
 
+  <!-- FIREWORKS CANVAS SCRIPT -->
+  <script>
+    const canvas = document.getElementById('fireworks-overlay');
+    const ctx = canvas.getContext('2d');
+
+    function resize() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    // Partícula
+    class Particle {
+      constructor(x, y, color) {
+        this.x = x;
+        this.y = y;
+        this.color = color;
+        const angle = Math.random() * Math.PI * 2;
+        const speed = Math.random() * 5 + 1.5;
+        this.vx = Math.cos(angle) * speed;
+        this.vy = Math.sin(angle) * speed;
+        this.alpha = 1;
+        this.decay = Math.random() * 0.015 + 0.008;
+        this.radius = Math.random() * 3 + 1.5;
+        this.gravity = 0.08;
+        // trail
+        this.trail = [];
+      }
+
+      update() {
+        this.trail.push({ x: this.x, y: this.y, alpha: this.alpha });
+        if (this.trail.length > 6) this.trail.shift();
+        this.vy += this.gravity;
+        this.x += this.vx;
+        this.y += this.vy;
+        this.alpha -= this.decay;
+      }
+
+      draw() {
+        // trail
+        for (let i = 0; i < this.trail.length; i++) {
+          const t = this.trail[i];
+          ctx.beginPath();
+          ctx.arc(t.x, t.y, this.radius * 0.5, 0, Math.PI * 2);
+          ctx.fillStyle = this.color.replace('1)', `${t.alpha * 0.3})`);
+          ctx.fill();
+        }
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        ctx.fillStyle = this.color.replace('1)', `${this.alpha})`);
+        ctx.fill();
+      }
+
+      isDead() { return this.alpha <= 0; }
+    }
+
+    // Foguete
+    class Rocket {
+      constructor() {
+        this.reset();
+      }
+
+      reset() {
+        this.x = Math.random() * canvas.width * 0.8 + canvas.width * 0.1;
+        this.y = canvas.height;
+        this.targetY = Math.random() * canvas.height * 0.45 + canvas.height * 0.05;
+        this.speed = Math.random() * 4 + 6;
+        this.trail = [];
+        this.exploded = false;
+        this.particles = [];
+        this.colors = this.randomColors();
+      }
+
+      randomColors() {
+        const palettes = [
+          ['rgba(255,215,0,1)', 'rgba(255,165,0,1)', 'rgba(255,255,200,1)'],
+          ['rgba(255,105,180,1)', 'rgba(255,182,193,1)', 'rgba(255,255,255,1)'],
+          ['rgba(192,132,252,1)', 'rgba(139,92,246,1)', 'rgba(255,255,255,1)'],
+          ['rgba(255,215,0,1)', 'rgba(255,105,180,1)', 'rgba(192,132,252,1)'],
+          ['rgba(100,220,255,1)', 'rgba(255,255,255,1)', 'rgba(0,200,255,1)'],
+        ];
+        return palettes[Math.floor(Math.random() * palettes.length)];
+      }
+
+      update() {
+        if (!this.exploded) {
+          this.trail.push({ x: this.x, y: this.y });
+          if (this.trail.length > 12) this.trail.shift();
+          this.y -= this.speed;
+
+          if (this.y <= this.targetY) {
+            this.exploded = true;
+            this.explode();
+          }
+        } else {
+          this.particles = this.particles.filter(p => {
+            p.update();
+            return !p.isDead();
+          });
+        }
+      }
+
+      explode() {
+        const count = Math.floor(Math.random() * 60) + 80;
+        for (let i = 0; i < count; i++) {
+          const color = this.colors[Math.floor(Math.random() * this.colors.length)];
+          this.particles.push(new Particle(this.x, this.y, color));
+        }
+        // estrelinhas extras pequenas
+        for (let i = 0; i < 20; i++) {
+          const color = 'rgba(255,255,255,1)';
+          const p = new Particle(this.x, this.y, color);
+          p.radius = 1;
+          p.decay = 0.025;
+          this.particles.push(p);
+        }
+      }
+
+      draw() {
+        if (!this.exploded) {
+          // trail do foguete
+          for (let i = 0; i < this.trail.length; i++) {
+            const t = this.trail[i];
+            const a = (i / this.trail.length) * 0.6;
+            ctx.beginPath();
+            ctx.arc(t.x, t.y, 2, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(255,220,100,${a})`;
+            ctx.fill();
+          }
+          // foguete
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, 3, 0, Math.PI * 2);
+          ctx.fillStyle = 'rgba(255,240,150,1)';
+          ctx.fill();
+        } else {
+          this.particles.forEach(p => p.draw());
+        }
+      }
+
+      isDone() {
+        return this.exploded && this.particles.length === 0;
+      }
+    }
+
+    // Gerenciador
+    let rockets = [];
+    let lastLaunch = 0;
+    // Intervalo entre foguetes (ms) — ajuste aqui para mais ou menos frequência
+    const LAUNCH_INTERVAL = 1200;
+
+    function loop(timestamp) {
+      // Fundo semi-transparente para efeito de rastro suave
+      ctx.fillStyle = 'rgba(26,10,46,0.18)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      // Lançar novo foguete
+      if (timestamp - lastLaunch > LAUNCH_INTERVAL) {
+        rockets.push(new Rocket());
+        lastLaunch = timestamp;
+      }
+
+      // Às vezes lança dois juntos
+      if (Math.random() < 0.004) {
+        rockets.push(new Rocket());
+      }
+
+      rockets = rockets.filter(r => {
+        r.update();
+        r.draw();
+        return !r.isDone();
+      });
+
+      requestAnimationFrame(loop);
+    }
+
+    requestAnimationFrame(loop);
+  </script>
+
 </body>
 </html>
